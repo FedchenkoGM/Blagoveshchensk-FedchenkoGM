@@ -4,13 +4,15 @@ from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.QtGui import QPainter, QPen, QColor
 from PyQt5.QtCore import Qt
-from random import randint
+from random import randint, choice
+
+from ui import Ui_MainWindow
 
 
-class MyWidget(QMainWindow):
+class MyWidget(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi('work_2.ui', self)
+        self.setupUi(self)
         self.btn.clicked.connect(self.paint)
         self.do_paint = False
 
@@ -18,7 +20,6 @@ class MyWidget(QMainWindow):
         if self.do_paint:
             qp = QPainter()
             qp.begin(self)
-            qp.setPen(QPen(QColor('Yellow'), 5, Qt.SolidLine))
             self.draw(qp)
             qp.end()
 
@@ -28,6 +29,9 @@ class MyWidget(QMainWindow):
         self.do_paint = False
 
     def draw(self, qp):
+        colors = ['Red', 'Orange', 'Yellow', 'Green', 'Cyan',
+                  'Blue', 'Magenta', 'Purple', 'Brown', 'Black']
+        qp.setPen(QPen(QColor(choice(colors)), 5, Qt.SolidLine))
         r = randint(30, 200)
         x, y = randint(5, 795 - r), randint(30, 595 - r)
         qp.drawEllipse(x, y, r, r)
